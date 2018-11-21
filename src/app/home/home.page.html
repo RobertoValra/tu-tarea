@@ -5,6 +5,26 @@
 </ion-header>
 
 <ion-content padding>
-  The world is your oyster.
-  <p>If you get lost, the <a target="_blank" rel="noopener" href="https://ionicframework.com/docs">docs</a> will be your guide.</p>
+  <ion-list radio-group [(ngModel)]="autoManufacturers" name="autoManufacturers" ngDefaultControl>
+
+    <ion-list-header>
+      Auto Manufacturers
+    </ion-list-header>
+
+    <ion-item *ngFor="let type of userType">
+      <ion-label>{{type}}</ion-label>
+      <ion-radio [value]="type"></ion-radio>
+    </ion-item>
+
+    <!--ion-item>
+      <ion-label>Duesenberg</ion-label>
+      <ion-radio value="duesenberg"></ion-radio>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Hudson</ion-label>
+      <ion-radio value="hudson"></ion-radio>
+    </ion-item-->
+
+  </ion-list>
 </ion-content>
