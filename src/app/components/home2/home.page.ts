@@ -1,16 +1,16 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { LifecycleHooks } from '@angular/compiler/src/lifecycle_reflector';
 
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss']
 })
-export class HomePage {
+export class HomePage  {
+  userType: string[];
+  autoManufacturers: string;
 
-	userType: string[];
-	autoManufacturers: string;
-
-	ngOnInit(): void {
-		this.userType = ['Maestro', 'Padre']
-	}
-} 
+  OnInit(): void {
+    this.userType = ['Maestro', 'Padre'];
+  }
+}

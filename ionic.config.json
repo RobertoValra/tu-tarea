@@ -1,6 +1,8 @@
 {
   "name": "ionic-tarea",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular",
   "pro_id": "3af1aa4c"
 }
