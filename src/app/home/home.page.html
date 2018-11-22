@@ -5,26 +5,26 @@
 </ion-header>
 
 <ion-content padding>
-  <ion-list radio-group [(ngModel)]="autoManufacturers" name="autoManufacturers" ngDefaultControl>
+  <ion-list>
+    <ion-radio-group>
+      <ion-list-header>
+        <ion-label>Soy</ion-label>
+      </ion-list-header>
 
-    <ion-list-header>
-      Auto Manufacturers
-    </ion-list-header>
+      <ion-item *ngFor="let type of userType">
+        <ion-label>{{type}}</ion-label>
+        <ion-radio [value]="type" slot="start" value="biff" checked></ion-radio>
+      </ion-item>
 
-    <ion-item *ngFor="let type of userType">
-      <ion-label>{{type}}</ion-label>
-      <ion-radio [value]="type"></ion-radio>
-    </ion-item>
+      <!--ion-item>
+        <ion-label>Griff</ion-label>
+        <ion-radio slot="start" value="griff"></ion-radio>
+      </ion-item>
 
-    <!--ion-item>
-      <ion-label>Duesenberg</ion-label>
-      <ion-radio value="duesenberg"></ion-radio>
-    </ion-item>
-
-    <ion-item>
-      <ion-label>Hudson</ion-label>
-      <ion-radio value="hudson"></ion-radio>
-    </ion-item-->
-
+      <ion-item>
+        <ion-label>Buford</ion-label>
+        <ion-radio slot="start" value="buford"></ion-radio>
+      </ion-item-->
+    </ion-radio-group>
   </ion-list>
 </ion-content>
