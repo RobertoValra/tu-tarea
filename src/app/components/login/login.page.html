@@ -1,0 +1,12 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>login</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+<button (click)="doGoogleLogin()">Login!</button>
+<button (click)="doGooglePlusLogin()">Login!</button>
+{{user | async | json }}
+</ion-content>
+ 
