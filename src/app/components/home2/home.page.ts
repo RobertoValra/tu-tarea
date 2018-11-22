@@ -11,7 +11,7 @@ export class HomePage {
 	userType: string[];
 	autoManufacturers: string;
 
-	ngOnInit(): void {
+	OnInit(): void {
 		this.userType = ['Maestro', 'Padre']
 	}
 } 

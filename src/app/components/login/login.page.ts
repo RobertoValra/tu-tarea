@@ -17,7 +17,7 @@ export class LoginPage implements OnInit {
     this.authService.doGoogleLogin().then(
       res => {
         console.log(res);
-        this.router.navigate(['/home']);
+        this.router.navigate(['/user-type']);
       },
       err => {
         console.log(err);
@@ -28,7 +28,7 @@ export class LoginPage implements OnInit {
     this.authService.doGooglePlusLogin().then(
       res => {
         console.log(res);
-        this.router.navigate(['/home']);
+        this.router.navigate(['/user-type']);
       },
       err => {
         console.log(err);
