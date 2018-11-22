@@ -1,0 +1,32 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>user-type</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-list>
+    <ion-radio-group>
+
+      <ion-list-header>
+        <ion-label>Soy</ion-label>
+      </ion-list-header>
+
+      <!--ion-item *ngFor="let type of userType">
+        <ion-label>{{type}}</ion-label>
+        <ion-radio [value]="type" slot="start" value="biff" checked></ion-radio>
+      </ion-item-->
+
+      <ion-item>
+        <ion-label>Maestro</ion-label>
+        <ion-radio slot="start" value="maestro"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Padre</ion-label>
+        <ion-radio slot="start" value="padre"></ion-radio>
+      </ion-item>
+
+    </ion-radio-group>
+  </ion-list>
+</ion-content>
