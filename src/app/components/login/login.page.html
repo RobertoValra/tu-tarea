@@ -5,8 +5,17 @@
 </ion-header>
 
 <ion-content padding>
-<button (click)="doGoogleLogin()">Login!</button>
-<button (click)="doGooglePlusLogin()">Login!</button>
-{{user | async | json }}
+  <ion-card *ngIf="user$ | async as user;else login">
+    <ion-img [src]="user.photoURL" style="max-width: 100px;margin: 15px;"></ion-img>
+    <ion-card-header>
+      <ion-card-title>{{user.displayName}}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <p>{{user.email}}</p>
+    </ion-card-content>
+    <ion-button (click)="doLogout()">Logout</ion-button>
+  </ion-card>
+  <ng-template #login>
+    <ion-button (click)="doGooglePlusLogin()">Login</ion-button>
+  </ng-template>
 </ion-content>
- 

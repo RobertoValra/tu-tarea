@@ -57,10 +57,10 @@ export default class AuthService {
       console.log(err);
     }
   }
-  doSingOut() {
+  async doSingOut() {
     this.afAuth.auth.signOut();
     if (this.platform.is('cordova')) {
-      this.gplus.logout();
+       this.gplus.logout();
     }
   }
 }

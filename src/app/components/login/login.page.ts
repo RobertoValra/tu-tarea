@@ -8,9 +8,9 @@ import { Observable } from 'rxjs';
   styleUrls: ['./login.page.scss']
 })
 export class LoginPage implements OnInit {
-  user: Observable<firebase.User>;
+  user$: Observable<firebase.User>;
   constructor(private authService: AuthService, private router: Router) {
-    this.user = this.authService.user;
+    this.user$ = this.authService.user;
   }
   ngOnInit() {}
   doGoogleLogin() {
@@ -29,6 +29,16 @@ export class LoginPage implements OnInit {
       res => {
         console.log(res);
         this.router.navigate(['/user-type']);
+      },
+      err => {
+        console.log(err);
+      }
+    );
+  }
+  doLogout() {
+    this.authService.doSingOut().then(
+      res => {
+        console.log(res);
       },
       err => {
         console.log(err);
