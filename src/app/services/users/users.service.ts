@@ -3,7 +3,9 @@ import {
   AngularFirestore,
   AngularFirestoreCollection
 } from '@angular/fire/firestore';
-import { map } from 'rxjs/operators';
+import { map, take, tap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+
 @Injectable()
 export default class UsersService {
   private usersColl: AngularFirestoreCollection<User>;
@@ -11,14 +13,25 @@ export default class UsersService {
     this.usersColl = this.db.collection<User>('/users');
   }
   addUser(user: User) {
-    const { email } = user;
-    this.usersColl.add({email});
+    this.usersColl.add(user);
   }
   deleteUSer(user: User) {
     this.usersColl.doc(user.id).delete();
   }
   updateUser(user: User) {
     this.usersColl.doc(user.id).update(user);
+  }
+  getUserById(user: User) {
+    console.log('getUserById', user.id);
+    return this.usersColl.snapshotChanges().pipe(
+      map(actions => {
+        return actions.filter(a => {
+          const data = a.payload.doc.data() as User;
+          const id = a.payload.doc.id;
+          return (data.id === user.id) ? { id, ...data } : false;
+        });
+      })
+    );
   }
   getUsers() {
     return this.usersColl.snapshotChanges().pipe(

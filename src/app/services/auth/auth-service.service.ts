@@ -44,6 +44,7 @@ export default class AuthService {
        await this.afAuth.auth.signInWithCredential(
         firebase.auth.GoogleAuthProvider.credential(gPlusUser.idToken)
       );
+      this.afAuth.auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
     } catch (err) {
       console.log(err);
     }

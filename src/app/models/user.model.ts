@@ -1,5 +1,5 @@
 interface User {
   id?: string;
   key?: string;
-  email: string;
+  email?: string;
 }
