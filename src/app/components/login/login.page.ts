@@ -1,16 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import AuthService from '../../services/auth/auth-service.service';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import UsersService from 'src/app/services/users/users.service';
 import {
-  flatMap,
-  take,
-  map,
-  mergeMap,
-  subscribeOn,
   switchMap,
-  first,
   tap
 } from 'rxjs/operators';
 @Component({
@@ -21,6 +15,7 @@ import {
 export class LoginPage implements OnInit {
   user$: Observable<firebase.User>;
   user: User;
+  googlePlusUser$: Subscription;
   constructor(
     private authService: AuthService,
     private router: Router,
@@ -37,21 +32,23 @@ export class LoginPage implements OnInit {
   doGooglePlusLogin() {
     this.authService.doGooglePlusLogin().then(
       res => {
-        this.user$
+       this.googlePlusUser$ =  this.user$
           .pipe(
             switchMap(userAuth => {
-              this.user.id = userAuth.uid;
-              return this.usersService.getUserById(this.user).pipe(
-                tap(userData => {
-                  if (!userData.length) {
-                    this.usersService.addUser(this.user);
-                  }
-                })
-              );
+              if (userAuth) {
+                this.user.id = userAuth.uid;
+                return this.usersService.getUsersByIdQuery(this.user).pipe(
+                  tap((userData: number) => {
+                    if (!userData) {
+                      this.usersService.addUser(this.user);
+                    }
+                  })
+                );
+              }
             })
           )
           .subscribe();
-        this.router.navigate(['/user-type']);
+        // this.router.navigate(['/user-type']);
       },
       err => {
         console.log(err);
@@ -61,7 +58,7 @@ export class LoginPage implements OnInit {
   doLogout() {
     this.authService.doSingOut().then(
       res => {
-        console.log(res);
+        this.googlePlusUser$.unsubscribe();
       },
       err => {
         console.log(err);

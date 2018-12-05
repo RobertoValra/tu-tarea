@@ -9,6 +9,7 @@ import { Observable } from 'rxjs';
 @Injectable()
 export default class UsersService {
   private usersColl: AngularFirestoreCollection<User>;
+  private userById$: Observable<any>;
   constructor(private db: AngularFirestore) {
     this.usersColl = this.db.collection<User>('/users');
   }
@@ -28,11 +29,21 @@ export default class UsersService {
         return actions.filter(a => {
           const data = a.payload.doc.data() as User;
           const id = a.payload.doc.id;
-          return (data.id === user.id) ? { id, ...data } : false;
+          return data.id === user.id ? { id, ...data } : false;
         });
       })
     );
   }
+  getUsersByIdQuery(user: User) {
+    return Observable.create(subscriber => {
+      this.usersColl.ref
+        .where('id', '==', user.id)
+        .onSnapshot((snapshot: firebase.firestore.QuerySnapshot) => {
+          subscriber.next(snapshot.docs.length);
+        });
+    });
+  }
+
   getUsers() {
     return this.usersColl.snapshotChanges().pipe(
       map(actions => {
