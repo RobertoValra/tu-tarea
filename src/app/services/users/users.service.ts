@@ -10,6 +10,7 @@ import { Observable } from 'rxjs';
 export default class UsersService {
   private usersColl: AngularFirestoreCollection<User>;
   private userById$: Observable<any>;
+  private userType: string;
   constructor(private db: AngularFirestore) {
     this.usersColl = this.db.collection<User>('/users');
   }
@@ -34,7 +35,7 @@ export default class UsersService {
       })
     );
   }
-  getUsersByIdQuery(user: User) {
+  getUsersByIdQuery(user: User): Observable<any> {
     return Observable.create(subscriber => {
       this.usersColl.ref
         .where('id', '==', user.id)
@@ -43,7 +44,17 @@ export default class UsersService {
         });
     });
   }
-
+  updateMultiple(user: User) {
+    const docRef = this.usersColl.ref.doc(user.id);
+    return this.db.firestore.runTransaction(transaction => {
+      return transaction.get(docRef).then(data => {
+        if (!data.exists) {
+          throw new Error('Document does not exist!');
+        }
+        transaction.update(docRef, { type: 'padre' });
+      });
+    });
+  }
   getUsers() {
     return this.usersColl.snapshotChanges().pipe(
       map(actions => {

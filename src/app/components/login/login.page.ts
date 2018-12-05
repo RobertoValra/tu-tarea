@@ -3,10 +3,7 @@ import AuthService from '../../services/auth/auth-service.service';
 import { Router } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
 import UsersService from 'src/app/services/users/users.service';
-import {
-  switchMap,
-  tap
-} from 'rxjs/operators';
+import { switchMap, tap } from 'rxjs/operators';
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
@@ -32,7 +29,7 @@ export class LoginPage implements OnInit {
   doGooglePlusLogin() {
     this.authService.doGooglePlusLogin().then(
       res => {
-       this.googlePlusUser$ =  this.user$
+        this.googlePlusUser$ = this.user$
           .pipe(
             switchMap(userAuth => {
               if (userAuth) {
@@ -56,9 +53,10 @@ export class LoginPage implements OnInit {
     );
   }
   doLogout() {
+    this.googlePlusUser$.unsubscribe();
     this.authService.doSingOut().then(
       res => {
-        this.googlePlusUser$.unsubscribe();
+        console.log('logged out');
       },
       err => {
         console.log(err);
