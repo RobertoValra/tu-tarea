@@ -15,13 +15,13 @@ export default class UsersService {
     this.usersColl = this.db.collection<User>('/users');
   }
   addUser(user: User) {
-    this.usersColl.add(user);
+    return this.usersColl.add(user);
   }
   deleteUSer(user: User) {
-    this.usersColl.doc(user.id).delete();
+    return this.usersColl.doc(user.id).delete();
   }
   updateUser(user: User) {
-    this.usersColl.doc(user.id).update(user);
+    return this.usersColl.doc(user.id).update(user);
   }
   getUserById(user: User) {
     console.log('getUserById', user.id);
@@ -43,6 +43,17 @@ export default class UsersService {
           console.log(snapshot.docs.shift().data());
           subscriber.next(snapshot.docs.length);
         });
+    });
+  }
+  updateUserType(user: User): Observable<any>  {
+    return Observable.create(subscriber => { this.usersColl.ref
+      .where('id', '==', user.id)
+      .onSnapshot((snapshot: firebase.firestore.QuerySnapshot) => {
+        console.log(snapshot.docs.shift().id);
+        subscriber.next(this.usersColl
+          .doc(snapshot.docs.shift().id)
+          .update({ type: user.type }));
+      });
     });
   }
   updateMultiple(user: User) {

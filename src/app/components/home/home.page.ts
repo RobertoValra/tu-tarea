@@ -12,7 +12,8 @@ export class HomePage {
   // this is the model to add users
   user: User = {
     id: '',
-    email: ''
+    email: '',
+    type: ''
   };
   constructor(private userService: UsersService) {
     this.users = this.userService.getUsers();
@@ -32,5 +33,12 @@ export class HomePage {
   setCurrentUser(user: User) {
     console.log(user);
     this.user = user;
+  }
+  setUserType(user: User) {
+    this.userService.updateUserType(user).subscribe({
+      next: res => console.log('res', res),
+      error: err => console.error('Observer got an error: ' + err),
+      complete: () => console.log('Observer got a complete notification')
+    });
   }
 }
