@@ -53,7 +53,10 @@ export class LoginPage implements OnInit {
     );
   }
   doLogout() {
-    this.googlePlusUser$.unsubscribe();
+    if (this.googlePlusUser$) {
+      console.log('this.googlePlusUser$', this.googlePlusUser$);
+      this.googlePlusUser$.unsubscribe();
+    }
     this.authService.doSingOut().then(
       res => {
         console.log('logged out');

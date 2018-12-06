@@ -40,6 +40,7 @@ export default class UsersService {
       this.usersColl.ref
         .where('id', '==', user.id)
         .onSnapshot((snapshot: firebase.firestore.QuerySnapshot) => {
+          console.log(snapshot.docs.shift().data());
           subscriber.next(snapshot.docs.length);
         });
     });
