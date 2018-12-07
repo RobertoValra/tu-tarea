@@ -34,8 +34,8 @@ export class LoginPage implements OnInit {
             switchMap(userAuth => {
               if (userAuth) {
                 this.user.id = userAuth.uid;
-                return this.usersService.getUsersByIdQuery(this.user).pipe(
-                  tap((userData: number) => {
+                return this.usersService.getUserById(this.user).pipe(
+                  tap((userData: string) => {
                     if (!userData) {
                       this.usersService.addUser(this.user);
                     }
