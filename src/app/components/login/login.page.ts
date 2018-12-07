@@ -3,7 +3,7 @@ import AuthService from '../../services/auth/auth-service.service';
 import { Router } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
 import UsersService from 'src/app/services/users/users.service';
-import { switchMap, tap } from 'rxjs/operators';
+import { tap, concatMap } from 'rxjs/operators';
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
@@ -31,7 +31,7 @@ export class LoginPage implements OnInit {
       res => {
         this.googlePlusUser$ = this.user$
           .pipe(
-            switchMap(userAuth => {
+            concatMap(userAuth => {
               if (userAuth) {
                 this.user.id = userAuth.uid;
                 return this.usersService.getUserById(this.user).pipe(

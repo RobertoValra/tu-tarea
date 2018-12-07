@@ -40,21 +40,28 @@ export default class UsersService {
       this.usersColl.ref
         .where('id', '==', user.id)
         .onSnapshot((snapshot: firebase.firestore.QuerySnapshot) => {
-          console.log('userId in database', snapshot.docs.shift().data().id);
-          console.log('documentId in database', snapshot.docs.shift().id);
-          subscriber.next(snapshot.docs.shift().id);
+          if (!snapshot.empty) {
+            console.log('userId in database', snapshot.docs.shift().data().id);
+            console.log('documentId in database', snapshot.docs.shift().id);
+            subscriber.next(snapshot.docs.shift().id);
+          } else {
+            subscriber.next('');
+          }
         });
     });
   }
-  updateUserType(user: User): Observable<any>  {
-    return Observable.create(subscriber => { this.usersColl.ref
-      .where('id', '==', user.id)
-      .onSnapshot((snapshot: firebase.firestore.QuerySnapshot) => {
-        console.log(snapshot.docs.shift().id);
-        subscriber.next(this.usersColl
-          .doc(snapshot.docs.shift().id)
-          .update({ type: user.type }));
-      });
+  updateUserType(user: User): Observable<any> {
+    return Observable.create(subscriber => {
+      this.usersColl.ref
+        .where('id', '==', user.id)
+        .onSnapshot((snapshot: firebase.firestore.QuerySnapshot) => {
+          console.log(snapshot.docs.shift().id);
+          subscriber.next(
+            this.usersColl
+              .doc(snapshot.docs.shift().id)
+              .update({ type: user.type })
+          );
+        });
     });
   }
   updateMultiple(user: User) {
